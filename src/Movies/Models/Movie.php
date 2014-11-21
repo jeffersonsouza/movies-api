@@ -1,5 +1,5 @@
 <?php
-namespace Movies\Model;
+namespace Movies\Models;
 require_once __DIR__ . '/../database.php';
 /**
  * Created by PhpStorm.
