@@ -22,7 +22,8 @@
         "symfony/http-foundation": ">=2.3,<2.6-dev",
         "symfony/http-kernel": ">=2.3,<2.6-dev",
         "symfony/routing": ">=2.3,<2.6-dev",
-        "illuminate/database": "*"
+        "illuminate/database": "5.0.*@dev",
+        "illuminate/pagination": "5.0.*@dev"
     },
     "require-dev": {
         "symfony/security": ">=2.3,<2.6-dev",

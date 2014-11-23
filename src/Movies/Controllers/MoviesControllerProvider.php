@@ -10,6 +10,7 @@ namespace Movies\Controllers;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Movies\Models\Movie;
 
 class MoviesControllerProvider implements ControllerProviderInterface
@@ -21,7 +22,9 @@ class MoviesControllerProvider implements ControllerProviderInterface
 
         // Get a Collection of movies
         $controllers->get('/', function () use ($app) {
-            return new \Symfony\Component\HttpFoundation\Response(Movie::find(1)->toJson(), 200, ['Content-Type' => 'application/json']);
+            $movies = Movie::paginate(10);
+
+            return new Response($movies->toJson(), 200, ['Content-Type' => 'application/json']);
         });
 
         // Get a single movie
@@ -29,12 +32,12 @@ class MoviesControllerProvider implements ControllerProviderInterface
             if(!empty($movie)){
                 $movie = Movie::find($movie);
                 if($movie)
-                    return new Response(json_encode($movie), 200, ['Content-Type' => 'application/json']);
+                    return new Response($movie->toJson(), 200, ['Content-Type' => 'application/json']);
 
                 return new Response(json_encode(['O ID informado não existe']), 404, ['Content-Type' => 'application/json']);
             }
 
-            return new Response(Movie::all()->toJson(), 200, ['Content-Type' => 'application/json']);
+            return new Response(Movie::paginate(10)->toJson(), 200, ['Content-Type' => 'application/json']);
         });
 
         return $controllers;

@@ -8,7 +8,6 @@ require_once __DIR__ . '/../database.php';
  * Time: 22:49
  */
 
-
 class Movie extends \Illuminate\Database\Eloquent\Model {
 
 } 
