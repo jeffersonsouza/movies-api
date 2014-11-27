@@ -24,7 +24,14 @@ class MoviesControllerProvider implements ControllerProviderInterface
         $controllers->get('/', function () use ($app) {
             $movies = Movie::paginate(10);
 
-            return new Response($movies->toJson(), 200, ['Content-Type' => 'application/json']);
+            return new Response($movies->toJson(), 200, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*']);
+        });
+
+        // Get top rated movies
+        $controllers->get('/tops', function () use ($app) {
+            $movies = Movie::where('id', '>', 0)->orderBy('rating', 'DESC')->take(10)->get();
+
+            return new Response($movies->toJson(), 200, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*']);
         });
 
         // Get a single movie
@@ -32,12 +39,12 @@ class MoviesControllerProvider implements ControllerProviderInterface
             if(!empty($movie)){
                 $movie = Movie::find($movie);
                 if($movie)
-                    return new Response($movie->toJson(), 200, ['Content-Type' => 'application/json']);
+                    return new Response($movie->toJson(), 200, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*']);
 
-                return new Response(json_encode(['O ID informado não existe']), 404, ['Content-Type' => 'application/json']);
+                return new Response(json_encode(['O ID informado não existe']), 404, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*']);
             }
 
-            return new Response(Movie::paginate(10)->toJson(), 200, ['Content-Type' => 'application/json']);
+            return new Response(Movie::paginate(10)->toJson(), 200, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*']);
         });
 
         return $controllers;
